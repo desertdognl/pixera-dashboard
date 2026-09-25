@@ -1,0 +1,16 @@
+node_modules
+out
+dist
+release
+.tmp-test
+.tmp-mac-asar
+src/**/*.js
+src/**/*.d.ts
+!src/renderer/src/global.d.ts
+.DS_Store
+*.log
+.env
+.env.local
+.cursor
+BACKLOG.md
+*.tsbuildinfo

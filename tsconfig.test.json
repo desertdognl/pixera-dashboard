@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "ES2022",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": ".tmp-test",
+    "rootDir": "src",
+    "types": ["node"]
+  },
+  "include": ["src/shared/**/*.ts"]
+}

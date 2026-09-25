@@ -1,0 +1,87 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-mac:
+    runs-on: macos-14
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run dist:mac
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mac-arm64
+          path: release/Pixera-Dashboard-*-mac-*.zip
+
+  build-win:
+    runs-on: windows-latest
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm run dist:win
+      - uses: actions/upload-artifact@v4
+        with:
+          name: win-x64
+          path: |
+            release/Pixera-Dashboard-*-win-*.exe
+            release/Pixera-Dashboard-*-win-*.zip
+
+  publish:
+    needs: [build-mac, build-win]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+      - name: Collect release files
+        run: |
+          mkdir -p dist-upload
+          find artifacts -type f \( -name '*.zip' -o -name '*.exe' \) -exec cp {} dist-upload/ \;
+          ls -la dist-upload
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${GITHUB_REF_NAME}"
+          NOTES_FILE="$(mktemp)"
+          {
+            echo "Pixera Dashboard \`${TAG}\`"
+            echo ""
+            echo "### Downloads"
+            echo "- **macOS (Apple Silicon):** \`Pixera-Dashboard-*-mac-arm64.zip\`"
+            echo "- **Windows:** \`Pixera-Dashboard-*-win-x64.exe\` (installer) or \`.zip\` (portable)"
+            echo ""
+            echo "See the README for first-open steps (Gatekeeper / SmartScreen)."
+            echo ""
+            echo "### Changelog"
+            awk -v ver="${TAG#v}" '
+              $0 ~ "^## " ver " " {p=1; next}
+              p && /^## / {exit}
+              p {print}
+            ' CHANGELOG.md
+          } > "$NOTES_FILE"
+          gh release create "$TAG" dist-upload/* \
+            --title "Pixera Dashboard ${TAG}" \
+            --notes-file "$NOTES_FILE"

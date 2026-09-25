@@ -1,0 +1,92 @@
+{
+  "name": "pixera-dashboard",
+  "version": "1.0.5",
+  "description": "Showcaller dashboard for Pixera 25+",
+  "main": "./out/main/index.js",
+  "author": "Desert Dog",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "preview": "electron-vite preview",
+    "mock": "node scripts/mock-pixera.mjs",
+    "test": "tsc -p tsconfig.test.json && node --test .tmp-test/shared/*.test.js",
+    "icon:mac": "python3 scripts/make-mac-icon.py",
+    "clean:release": "node scripts/clean-release.mjs",
+    "predist": "npm run clean:release",
+    "predist:mac": "npm run clean:release",
+    "predist:win": "npm run clean:release",
+    "pack:mac": "npm run icon:mac && npm run build && node scripts/update-mac-app.mjs",
+    "dist:mac": "npm run icon:mac && npm run build && CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac zip --arm64 --publish never",
+    "dist:win": "npm run build && CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win --x64 --publish never",
+    "dist": "npm run dist:mac && npm run dist:win"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "@types/react": "^19.1.6",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.5.2",
+    "electron": "^36.4.0",
+    "electron-builder": "26.13.0",
+    "electron-vite": "^3.1.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.5"
+  },
+  "build": {
+    "appId": "nl.desertdog.pixera-dashboard",
+    "productName": "Pixera Dashboard",
+    "copyright": "Copyright © Desert Dog",
+    "directories": {
+      "output": "release",
+      "buildResources": "resources"
+    },
+    "files": [
+      "out/**/*",
+      "package.json"
+    ],
+    "extraMetadata": {
+      "main": "./out/main/index.js"
+    },
+    "mac": {
+      "icon": "icon.icns",
+      "category": "public.app-category.utilities",
+      "identity": null,
+      "hardenedRuntime": false,
+      "gatekeeperAssess": false,
+      "extendInfo": {
+        "NSLocalNetworkUsageDescription": "Pixera Dashboard connects to Pixera over the show network (JSON/TCP) to read cue and timer data."
+      },
+      "target": [
+        {
+          "target": "zip",
+          "arch": ["arm64"]
+        }
+      ],
+      "artifactName": "Pixera-Dashboard-${version}-mac-${arch}.${ext}"
+    },
+    "win": {
+      "icon": "icon.png",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
+          "target": "zip",
+          "arch": ["x64"]
+        }
+      ],
+      "artifactName": "Pixera-Dashboard-${version}-win-${arch}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Pixera Dashboard"
+    }
+  }
+}
