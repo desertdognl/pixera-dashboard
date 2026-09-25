@@ -74,7 +74,29 @@ jobs:
             echo "- **macOS (Apple Silicon):** \`Pixera-Dashboard-*-mac-arm64.zip\`"
             echo "- **Windows:** \`Pixera-Dashboard-*-win-x64.exe\` (installer) or \`.zip\` (portable)"
             echo ""
-            echo "See the README for first-open steps (Gatekeeper / SmartScreen)."
+            echo "App packages contain only the built app — no backlog or internal docs."
+            echo ""
+            echo "### macOS — first open (unsigned)"
+            echo ""
+            echo "The Mac build is **not** notarized. Clear Gatekeeper quarantine in **Terminal** before opening:"
+            echo ""
+            echo '```bash'
+            echo '# After unzipping, if the app is still in Downloads:'
+            echo 'xattr -cr ~/Downloads/Pixera\ Dashboard.app'
+            echo ''
+            echo '# Or after moving it to Applications:'
+            echo 'xattr -cr "/Applications/Pixera Dashboard.app"'
+            echo '```'
+            echo ""
+            echo "Then **right-click** the app → **Open** → confirm **Open**."
+            echo ""
+            echo "Also enable **System Settings → Privacy & Security → Local Network → Pixera Dashboard** if Connect fails with host unreachable."
+            echo ""
+            echo "Full steps: see the [README](https://github.com/desertdognl/pixera-dashboard#macos--first-open-unsigned-build)."
+            echo ""
+            echo "### Windows — first open (unsigned)"
+            echo ""
+            echo "SmartScreen may warn. Click **More info** → **Run anyway**."
             echo ""
             echo "### Changelog"
             awk -v ver="${TAG#v}" '
