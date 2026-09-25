@@ -1,6 +1,6 @@
 {
   "name": "pixera-dashboard",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Showcaller dashboard for Pixera 25+",
   "main": "./out/main/index.js",
   "author": "Desert Dog",
@@ -18,8 +18,8 @@
     "predist:mac": "npm run clean:release",
     "predist:win": "npm run clean:release",
     "pack:mac": "npm run icon:mac && npm run build && node scripts/update-mac-app.mjs",
-    "dist:mac": "npm run build && CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac zip --arm64 --publish never",
-    "dist:win": "npm run build && CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --win --x64 --publish never",
+    "dist:mac": "npm run build && electron-builder --mac zip --arm64 --publish never",
+    "dist:win": "npm run build && electron-builder --win --x64 --publish never",
     "dist": "npm run dist:mac && npm run dist:win"
   },
   "devDependencies": {

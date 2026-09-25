@@ -7,6 +7,11 @@ The project follows [Semantic Versioning](https://semver.org/): **MAJOR.MINOR.PA
 The app version lives in `package.json` and `src/shared/version.ts`. Keep those two values identical when you release. The version is shown in Settings as **vX.Y.Z**.
 
 
+## 1.0.7 — 2026-09-25
+
+### Fixed
+- Windows release script no longer uses Unix-only env syntax (CI can build the installer)
+
 ## 1.0.6 — 2026-09-25
 
 ### Fixed
