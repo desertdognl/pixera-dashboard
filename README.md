@@ -2,7 +2,7 @@
 
 Showcaller-style desktop timer for **Pixera 25.x and newer**.
 
-Current version: **1.0.5** — see [CHANGELOG.md](CHANGELOG.md).
+Current version: **1.0.6** — see [CHANGELOG.md](CHANGELOG.md).
 
 ### Short blurb (download site)
 
@@ -24,8 +24,8 @@ Get the latest build from the [GitHub Releases](https://github.com/desertdognl/p
 
 | Platform | File |
 | --- | --- |
-| macOS (Apple Silicon) | `Pixera-Dashboard-1.0.5-mac-arm64.zip` |
-| Windows (64-bit) | `Pixera-Dashboard-1.0.5-win-x64.exe` (installer) or `.zip` (portable) |
+| macOS (Apple Silicon) | `Pixera-Dashboard-1.0.6-mac-arm64.zip` |
+| Windows (64-bit) | `Pixera-Dashboard-1.0.6-win-x64.exe` (installer) or `.zip` (portable) |
 
 Version numbers in the filenames match the release tag.
 
